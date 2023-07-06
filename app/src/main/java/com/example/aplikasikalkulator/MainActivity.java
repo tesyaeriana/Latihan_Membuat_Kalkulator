@@ -10,7 +10,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private TextView textView1, textView2;
     private Button buttonsatu, buttondua, buttontiga, buttonempat, buttonlima, buttonenam, buttontuju, buttondelapan, buttonsembilan, buttonnol, buttonclear, button_space, button_percent, button_tambah, button_kurang, button_kali, buttondivide, button_koma, buttonhasil;
-    private double first, second, result;
+    private int first, second;
+    private double result;
     private String operation;
     private String answer;
     @Override
@@ -160,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 String primary;
-                first= Double.parseDouble((String)textView2.getText());
-                primary=String.format("%.2f",first);
+                first= Integer.parseInt((String)textView2.getText());
+                primary=String.format("%d",first);
                 textView1.setText(primary);
                 textView2.setText("");
                 operation="%";
@@ -173,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 String primary;
-                first= Double.parseDouble((String)textView2.getText());
-                primary=String.format("%.2f",first);
+                first= Integer.parseInt((String)textView2.getText());
+                primary=String.format("%d",first);
                 textView1.setText(primary);
                 textView2.setText("");
                 operation="+";
@@ -186,9 +187,9 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 String primary;
-                first= Double.parseDouble((String)textView2.getText());
-                primary=String.format("%.2f",first);
-                textView1.setText(primary);
+                first= Integer.parseInt((String)textView2.getText());
+                primary=String.format("%d",first);
+                textView1.setText(primary + "-" );
                 textView2.setText("");
                 operation="-";
 
@@ -199,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 String primary;
-                first= Double.parseDouble((String)textView2.getText());
-                primary=String.format("%.2f",first);
+                first= Integer.parseInt((String)textView2.getText());
+                primary=String.format("%d",first);
                 textView1.setText(primary);
                 textView2.setText("");
                 operation="/";
@@ -212,8 +213,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 String primary;
-                first= Double.parseDouble((String)textView2.getText());
-                primary=String.format("%.2f",first);
+                first= Integer.parseInt((String)textView2.getText());
+                primary=String.format("%d",first);
                 textView1.setText(primary);
                 textView2.setText("");
                 operation="*";
@@ -222,44 +223,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ////button hasil
-        buttonhasil.setOnClickListener(new View.OnClickListener(){
+        buttonhasil.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                second=Double.parseDouble((String) textView2.getText());
-                if(operation=="+"){
-                    result = first+second;
-                    answer=String.format("%.2f",result);
-                    textView2.setText(answer);
-                    textView1.setText(null);
+            public void onClick(View v) {
+                second = Integer.parseInt(textView2.getText().toString());
+                String operationText = "";
+
+                if (operation.equals("+")) {
+                    result = first + second;
+                    operationText = "+";
+                } else if (operation.equals("-")) {
+                    result = first - second;
+                    operationText = "-";
+                } else if (operation.equals("*")) {
+                    result = first * second;
+                    operationText = "*";
+                } else if (operation.equals("/")) {
+                    result = first / second;
+                    operationText = "/";
+                } else if (operation.equals("%")) {
+                    result = first % second;
+                    operationText = "%";
                 }
-                if(operation=="-"){
-                    result = first-second;
-                    answer=String.format("%.2f",result);
-                    textView2.setText(answer);
-                    textView1.setText(null);
-                }
-                if(operation=="*"){
-                    result = first*second;
-                    answer=String.format("%.2f",result);
-                    textView2.setText(answer);
-                    textView1.setText(null);
-                }
-                if(operation=="/"){
-                    result = first/second;
-                    answer=String.format("%.2f",result);
-                    textView2.setText(answer);
-                    textView1.setText(null);
-                }
-                if(operation=="%"){
-                    result = first%second;
-                    answer=String.format("%.2f",result);
-                    textView2.setText(answer);
-                    textView1.setText(null);
-                }
+
+                String primary = String.format("%d %s %d", first, operationText, second);
+                textView1.setText(primary);
+                textView2.setText(String.format("%.2f", result));
+                second = (int) result;
+
+                // Update nilai second dengan hasil perhitungan
             }
-
         });
-
-
     }
 }
